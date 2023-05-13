@@ -24,6 +24,10 @@ module.exports = appInfo => {
     }
   }
 
+  config.mongoose = {
+    url: 'mongodb://localhost:27017/lego'
+  }
+
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
