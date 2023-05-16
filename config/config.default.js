@@ -10,7 +10,16 @@ module.exports = appInfo => {
    * built-in config
    * @type {Egg.EggAppConfig}
    **/
-  const config = exports = {};
+  const config = exports = {
+    mongoose : {
+      client: {
+        url: 'mongodb://127.0.0.1:27017',
+        options: {
+          // useNewUrlParser: true,
+        },
+      }
+    }
+  };
 
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1683856611106_6999';
@@ -22,10 +31,6 @@ module.exports = appInfo => {
     csrf: {
       enable: false
     }
-  }
-
-  config.mongoose = {
-    url: 'mongodb://localhost:27017/lego'
   }
 
   // add your user config here

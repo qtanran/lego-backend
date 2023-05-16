@@ -1,7 +1,7 @@
-import { Application } from "egg";
-import { Schema } from 'mongoose'
-
 function initUserModel(app) {
+  const mongoose = app.mongoose
+  const Schema = mongoose.Schema
+
   const UserSchema = new Schema({
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
@@ -13,4 +13,4 @@ function initUserModel(app) {
   return app.mongoose.model('User', UserSchema)
 }
 
-export default initUserModel
+module.export = initUserModel
