@@ -6,5 +6,12 @@ module.exports = {
       message: msg ? msg : '请求成功'
     }
     ctx.status = 200
+  },
+  error({ ctx, msg, errno }) {
+    ctx.body = {
+      errno,
+      message: msg ? msg : '请求错误'
+    }
+    ctx.status = 200
   }
 }

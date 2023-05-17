@@ -1,4 +1,4 @@
-import { Service } from 'egg'
+const { Service } = require('egg');
 
 class UserService extends Service {
   async createByEmail(payload) {
