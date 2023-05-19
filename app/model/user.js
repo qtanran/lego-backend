@@ -10,7 +10,7 @@ function initUserModel(app) {
     email: { type: String },
     phoneNumber: { type: String }
   }, { timestamps: true })
-  return app.mongoose.model('User', UserSchema)
+  return mongoose.model('User', UserSchema, 'user')
 }
 
 module.export = initUserModel

@@ -9,7 +9,7 @@ class UserController extends Controller {
   async createByEmail() {
     const { ctx, service, app } = this;
     const errors = app.validator.validate(userCreateRules, ctx.request.body)
-    ctx.log.warn(errors)
+    ctx.logger.warn(errors)
     if (errors) {
       return ctx.helper.error({ ctx, errno: 10001, msg: '验证错误' })
     }
@@ -18,8 +18,8 @@ class UserController extends Controller {
   }
   async show() {
     const { ctx, service } = this
-    const userData = await service.user.findById(ctx.params.id)
-    ctx.helper.success({ ctx, res: userData })
+    // const userData = await service.user.findById(ctx.params.id)
+    // ctx.helper.success({ ctx, res: userData })
   }
 }
 
