@@ -1,3 +1,5 @@
+const userErrorMessages = require('../error')
+
 module.exports = {
   success({ ctx, res, msg }) {
     ctx.body = {
@@ -7,10 +9,12 @@ module.exports = {
     }
     ctx.status = 200
   },
-  error({ ctx, msg, errno }) {
+  error({ ctx, error, errorType }) {
+    const { errno, message } = userErrorMessages[errorType]
     ctx.body = {
       errno,
-      message: msg ? msg : '请求错误'
+      message,
+      ...(error && { error })
     }
     ctx.status = 200
   }

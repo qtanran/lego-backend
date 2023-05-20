@@ -13,4 +13,4 @@ function initUserModel(app) {
   return mongoose.model('User', UserSchema, 'user')
 }
 
-module.export = initUserModel
+module.exports = initUserModel

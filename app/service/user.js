@@ -1,4 +1,4 @@
-const { Service } = require('egg');
+const { Service } = require('egg')
 
 class UserService extends Service {
   async createByEmail(payload) {
@@ -13,6 +13,9 @@ class UserService extends Service {
   }
   async findById(id) {
     return this.ctx.model.User.findById(id)
+  }
+  async findByUsername(username) {
+    return this.ctx.model.User.findOne({ username })
   }
 }
 

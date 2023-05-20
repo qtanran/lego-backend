@@ -15,7 +15,8 @@
   "devDependencies": {
     "egg-bin": "^5",
     "egg-ci": "^2",
-    "egg-mock": "^5"
+    "egg-mock": "^5",
+    "prettier": "^2.8.8"
   },
   "engines": {
     "node": ">=16.0.0"
