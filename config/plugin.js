@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /** @type Egg.EggPlugin */
 module.exports = {
@@ -9,5 +9,9 @@ module.exports = {
   validate: {
     enable: true,
     package: 'egg-validate'
+  },
+  bcrypt: {
+    enable: true,
+    package: 'egg-bcrypt'
   }
-};
+}

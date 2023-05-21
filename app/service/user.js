@@ -4,9 +4,10 @@ class UserService extends Service {
   async createByEmail(payload) {
     const { ctx } = this
     const { username, password } = payload
+    const hash = await ctx.genHash(password)
     const userCreatedData = {
       username,
-      password,
+      password: hash,
       email: username
     }
     return ctx.model.User.create(userCreatedData)
