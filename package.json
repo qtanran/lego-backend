@@ -11,7 +11,8 @@
     "egg-bcrypt": "^1.1.0",
     "egg-mongoose": "^3.3.1",
     "egg-scripts": "^2",
-    "egg-validate": "^2.0.2"
+    "egg-validate": "^2.0.2",
+    "mongoose-sequence": "^5.3.1"
   },
   "devDependencies": {
     "egg-bin": "^5",

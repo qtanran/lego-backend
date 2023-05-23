@@ -1,6 +1,9 @@
+const AutoIncrementFactory = require('mongoose-sequence')
+
 function initUserModel(app) {
   const mongoose = app.mongoose
   const Schema = mongoose.Schema
+  const AutoIncrement = AutoIncrementFactory(mongoose)
 
   const UserSchema = new Schema(
     {
@@ -21,6 +24,7 @@ function initUserModel(app) {
       }
     }
   )
+  UserSchema.plugin(AutoIncrement, { inc_field: 'id', id: 'users_id_counter' })
   return mongoose.model('User', UserSchema, 'user')
 }
 
