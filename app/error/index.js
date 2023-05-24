@@ -12,5 +12,9 @@ module.exports = {
   loginCheckFailInfo: {
     errno: 101003,
     message: '该用户不存在或者密码错误'
+  },
+  loginValidateFail: {
+    errno: 101004,
+    message: '登录校验失败'
   }
 }

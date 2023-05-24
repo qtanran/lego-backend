@@ -46,12 +46,15 @@ class UserController extends Controller {
     if (!verifyPwd) {
       return ctx.helper.error({ ctx, errorType: 'loginCheckFailInfo' })
     }
-    ctx.helper.success({ ctx, res: user.toJSON(), msg: '登录成功' })
+    const token = app.jwt.sign({ username: user.username }, app.config.jwt.secret, {
+      expiresIn: 60 * 60
+    })
+    ctx.helper.success({ ctx, res: { token }, msg: '登录成功' })
   }
   async show() {
     const { ctx, service } = this
-    const userData = await service.user.findById(ctx.params.id)
-    ctx.helper.success({ ctx, res: userData })
+    const userData = await service.user.findByUsername(ctx.state.user.username)
+    ctx.helper.success({ ctx, res: userData.toJSON() })
   }
 }
 
