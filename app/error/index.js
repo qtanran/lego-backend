@@ -16,5 +16,10 @@ module.exports = {
   loginValidateFail: {
     errno: 101004,
     message: '登录校验失败'
+  },
+  // 发送短信验证码过于频繁
+  sendVeriCodeFrequentlyFailInfo: {
+    errno: 101005,
+    message: '请勿频繁获取短信验证码'
   }
 }
