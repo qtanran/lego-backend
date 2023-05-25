@@ -10,4 +10,5 @@ module.exports = app => {
   router.get('/api/users/getUserInfo', app.jwt, controller.user.show)
   router.post('/api/users/login', controller.user.loginByEmail)
   router.post('/api/users/genVeriCode', controller.user.sendVeriCode)
+  router.post('/api/users/loginByPhoneNumber', controller.user.loginByCellphone)
 }

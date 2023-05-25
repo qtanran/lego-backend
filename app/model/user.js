@@ -8,11 +8,12 @@ function initUserModel(app) {
   const UserSchema = new Schema(
     {
       username: { type: String, unique: true, required: true },
-      password: { type: String, required: true },
+      password: { type: String },
       nickName: { type: String },
       picture: { type: String },
       email: { type: String },
-      phoneNumber: { type: String }
+      phoneNumber: { type: String },
+      type: { type: String, default: 'email' }
     },
     {
       timestamps: true,

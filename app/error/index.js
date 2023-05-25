@@ -21,5 +21,10 @@ module.exports = {
   sendVeriCodeFrequentlyFailInfo: {
     errno: 101005,
     message: '请勿频繁获取短信验证码'
+  },
+  // 登录时，验证码不正确
+  loginVeriCodeIncorrectFailInfo: {
+    errno: 101006,
+    message: '验证码不正确'
   }
 }
