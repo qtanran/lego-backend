@@ -58,8 +58,13 @@ class UserController extends Controller {
       return ctx.helper.error({ ctx, errorType: 'sendVeriCodeFrequentlyFailInfo' })
     }
     const veriCode = Math.floor(Math.random() * 9000 + 1000).toString()
+    // 发送短信
+    const resp = await this.service.user.sendSMS(phoneNumber, veriCode)
+    if (resp.body.code !== 'OK') {
+      return ctx.helper.error({ ctx, errorType: 'sendVeriCodeError' })
+    }
     await app.redis.set(`phoneVeriCode-${phoneNumber}`, veriCode, 'ex', 60)
-    ctx.helper.success({ ctx, res: veriCode })
+    ctx.helper.success({ ctx, msg: '验证码发送成功' })
   }
 
   /**

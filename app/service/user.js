@@ -1,4 +1,5 @@
 const { Service } = require('egg')
+const $Dysmsapi = require('@alicloud/dysmsapi20170525')
 
 class UserService extends Service {
   async createByEmail(payload) {
@@ -18,6 +19,30 @@ class UserService extends Service {
   async findByUsername(username) {
     return this.ctx.model.User.findOne({ username })
   }
+
+  /**
+   * 调用阿里云服务，发送短信验证码
+   * @param phoneNumber 手机号
+   * @param veriCode 验证码
+   * @returns {Promise<SendSmsResponse>}
+   */
+  async sendSMS(phoneNumber, veriCode) {
+    const { app } = this
+    // 配置参数
+    const sendSMSRequest = new $Dysmsapi.SendSmsRequest({
+      phoneNumbers: phoneNumber,
+      signName: process.env.SIGN_NAME,
+      templateCode: process.env.TEMPLATE_CODE,
+      templateParam: `{\"code\":\"${veriCode}\"}`
+    })
+    return await app.ALClient.sendSms(sendSMSRequest)
+  }
+
+  /**
+   * 通过手机号登录
+   * @param cellphone 手机号
+   * @returns {Promise<string>}
+   */
   async loginByCellphone(cellphone) {
     const { ctx, app } = this
     const user = await this.findByUsername(cellphone)

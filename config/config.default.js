@@ -1,6 +1,5 @@
-/* eslint valid-jsdoc: "off" */
-
-'use strict'
+const dotenv = require('dotenv')
+dotenv.config()
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
@@ -49,6 +48,9 @@ module.exports = appInfo => {
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
+    accessKeyId: process.env.ALC_ACCESS_KEY,
+    accessKeySecret: process.env.ALC_SECRET_KEY,
+    endpoint: 'dysmsapi.aliyuncs.com'
   }
 
   return {

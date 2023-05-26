@@ -26,5 +26,10 @@ module.exports = {
   loginVeriCodeIncorrectFailInfo: {
     errno: 101006,
     message: '验证码不正确'
+  },
+  // 验证码发送失败
+  sendVeriCodeError: {
+    errno: 101007,
+    message: '验证码发送失败'
   }
 }

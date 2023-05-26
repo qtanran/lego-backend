@@ -7,6 +7,8 @@
     "declarations": true
   },
   "dependencies": {
+    "@alicloud/dysmsapi20170525": "^2.0.23",
+    "@alicloud/openapi-client": "^0.4.6",
     "egg": "^3",
     "egg-bcrypt": "^1.1.0",
     "egg-jwt": "^3.1.7",
@@ -17,6 +19,7 @@
     "mongoose-sequence": "^5.3.1"
   },
   "devDependencies": {
+    "dotenv": "^16.0.3",
     "egg-bin": "^5",
     "egg-ci": "^2",
     "egg-mock": "^5",
