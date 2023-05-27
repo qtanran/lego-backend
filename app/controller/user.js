@@ -43,6 +43,10 @@ class UserController extends Controller {
     return errors
   }
 
+  /**
+   * 发送手机验证码
+   * @returns {Promise<*>}
+   */
   async sendVeriCode() {
     const { ctx, app } = this
     const { phoneNumber } = ctx.request.body
@@ -116,7 +120,21 @@ class UserController extends Controller {
     const token = await ctx.service.user.loginByCellphone(phoneNumber)
     ctx.helper.success({ ctx, res: { token } })
   }
-
+  async oauth() {
+    const { app, ctx } = this
+    const { cid, redirectURL } = app.config.giteeOauthConfig
+    ctx.redirect(
+      `https://gitee.com/oauth/authorize?client_id=${cid}&redirect_uri=${redirectURL}&response_type=code`
+    )
+  }
+  async oauthByGitee() {
+    const { ctx } = this
+    const { code } = ctx.request.query
+    const resp = await ctx.service.user.getAccessToken(code)
+    if (resp) {
+      ctx.helper.success({ ctx, res: resp })
+    }
+  }
   async show() {
     const { ctx, service } = this
     const userData = await service.user.findByUsername(ctx.state.user.username)

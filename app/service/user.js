@@ -58,6 +58,24 @@ class UserService extends Service {
     })
     return app.jwt.sign({ username: newUser.username }, app.config.jwt.secret)
   }
+
+  async getAccessToken(code) {
+    const { ctx, app } = this
+    const { cid, secret, redirectURL, authURL } = app.config.giteeOauthConfig
+    const { data } = await ctx.curl(authURL, {
+      method: 'POST',
+      contentType: 'json',
+      dataType: 'json',
+      data: {
+        code,
+        client_id: cid,
+        redirect_uri: redirectURL,
+        client_secret: secret
+      }
+    })
+    app.logger.info(data)
+    return data
+  }
 }
 
 module.exports = UserService

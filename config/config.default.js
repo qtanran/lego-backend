@@ -45,12 +45,23 @@ module.exports = appInfo => {
     }
   }
 
+  // gitee oauth config
+  const giteeOauthConfig = {
+    cid: process.env.GITEE_CID,
+    secret: process.env.GITEE_SECRET,
+    redirectURL: 'http://localhost:7001/api/users/passport/gitee/callback',
+    authURL: 'https://gitee.com/oauth/token?grant_type=authorization_code'
+  }
+
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
-    accessKeyId: process.env.ALC_ACCESS_KEY,
-    accessKeySecret: process.env.ALC_SECRET_KEY,
-    endpoint: 'dysmsapi.aliyuncs.com'
+    aliCloudConfig: {
+      accessKeyId: process.env.ALC_ACCESS_KEY,
+      accessKeySecret: process.env.ALC_SECRET_KEY,
+      endpoint: 'dysmsapi.aliyuncs.com'
+    },
+    giteeOauthConfig
   }
 
   return {
