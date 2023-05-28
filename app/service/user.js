@@ -59,6 +59,11 @@ class UserService extends Service {
     return app.jwt.sign({ username: newUser.username }, app.config.jwt.secret)
   }
 
+  /**
+   * 获取码云的 access_token
+   * @param code
+   * @returns {Promise<*>}
+   */
   async getAccessToken(code) {
     const { ctx, app } = this
     const { cid, secret, redirectURL, authURL } = app.config.giteeOauthConfig
@@ -74,7 +79,53 @@ class UserService extends Service {
       }
     })
     app.logger.info(data)
+    return data.access_token
+  }
+
+  /**
+   * 获取码云的用户数据
+   * @param access_token
+   * @returns {Promise<any>}
+   */
+  async getGiteeUserData(access_token) {
+    const { ctx, app } = this
+    const { giteeUserAPI } = app.config.giteeOauthConfig
+    const { data } = await ctx.curl(`${giteeUserAPI}?access_token=${access_token}`, {
+      dataType: 'json'
+    })
     return data
+  }
+
+  /**
+   * 通过码云登录
+   * @param code
+   * @returns {Promise<string>}
+   */
+  async loginByGitee(code) {
+    const { ctx, app } = this
+    // 获取 access_token
+    const accessToken = await this.getAccessToken(code)
+    // 获取用户的信息
+    const user = await this.getGiteeUserData(accessToken)
+    // 检查用户信息是否存在
+    const { id, name, avatar_url, email } = user
+    const stringId = id.toString()
+    // 假如已经存在
+    const existUser = await this.findByUsername(`Gitee${stringId}`)
+    if (existUser) {
+      return app.jwt.sign({ username: existUser.username }, app.config.jwt.secret)
+    }
+    // 假如不存在，新建用户
+    const newUser = await ctx.model.User.create({
+      oauthID: stringId,
+      provider: 'gitee',
+      username: `Gitee${stringId}`,
+      picture: avatar_url,
+      nickName: name,
+      email,
+      type: 'oauth'
+    })
+    return app.jwt.sign({ username: newUser.username }, app.config.jwt.secret)
   }
 }
 

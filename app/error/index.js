@@ -31,5 +31,10 @@ module.exports = {
   sendVeriCodeError: {
     errno: 101007,
     message: '验证码发送失败'
+  },
+  // gitee 授权出错
+  giteeOauthError: {
+    errno: 101008,
+    message: 'gitee 授权出错'
   }
 }

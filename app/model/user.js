@@ -13,7 +13,9 @@ function initUserModel(app) {
       picture: { type: String },
       email: { type: String },
       phoneNumber: { type: String },
-      type: { type: String, default: 'email' }
+      type: { type: String, default: 'email' },
+      provider: { type: String },
+      oauthID: { type: String }
     },
     {
       timestamps: true,

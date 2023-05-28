@@ -130,9 +130,11 @@ class UserController extends Controller {
   async oauthByGitee() {
     const { ctx } = this
     const { code } = ctx.request.query
-    const resp = await ctx.service.user.getAccessToken(code)
-    if (resp) {
-      ctx.helper.success({ ctx, res: resp })
+    try {
+      const token = await ctx.service.user.loginByGitee(code)
+      ctx.helper.success({ ctx, res: { token } })
+    } catch (e) {
+      return ctx.helper.error({ ctx, errorType: 'giteeOauthError' })
     }
   }
   async show() {
