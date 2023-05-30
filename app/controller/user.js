@@ -94,7 +94,7 @@ class UserController extends Controller {
     if (!verifyPwd) {
       return ctx.helper.error({ ctx, errorType: 'loginCheckFailInfo' })
     }
-    const token = app.jwt.sign({ username: user.username }, app.config.jwt.secret, {
+    const token = app.jwt.sign({ username: user.username, _id: user._id }, app.config.jwt.secret, {
       expiresIn: 60 * 60
     })
     ctx.helper.success({ ctx, res: { token }, msg: '登录成功' })

@@ -48,7 +48,7 @@ class UserService extends Service {
     const user = await this.findByUsername(cellphone)
     // 检查 user 记录是否存在
     if (user) {
-      return app.jwt.sign({ username: user.username }, app.config.jwt.secret)
+      return app.jwt.sign({ username: user.username, _id: user._id }, app.config.jwt.secret)
     }
     const newUser = await ctx.model.User.create({
       username: cellphone,
@@ -56,7 +56,7 @@ class UserService extends Service {
       nickName: `乐高${cellphone.slice(-4)}`,
       type: 'cellphone'
     })
-    return app.jwt.sign({ username: newUser.username }, app.config.jwt.secret)
+    return app.jwt.sign({ username: newUser.username, _id: user._id }, app.config.jwt.secret)
   }
 
   /**
@@ -113,7 +113,10 @@ class UserService extends Service {
     // 假如已经存在
     const existUser = await this.findByUsername(`Gitee${stringId}`)
     if (existUser) {
-      return app.jwt.sign({ username: existUser.username }, app.config.jwt.secret)
+      return app.jwt.sign(
+        { username: existUser.username, _id: existUser._id },
+        app.config.jwt.secret
+      )
     }
     // 假如不存在，新建用户
     const newUser = await ctx.model.User.create({
@@ -125,7 +128,7 @@ class UserService extends Service {
       email,
       type: 'oauth'
     })
-    return app.jwt.sign({ username: newUser.username }, app.config.jwt.secret)
+    return app.jwt.sign({ username: newUser.username, _id: newUser._id }, app.config.jwt.secret)
   }
 }
 

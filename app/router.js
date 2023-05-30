@@ -13,4 +13,6 @@ module.exports = app => {
   router.post('/api/users/loginByPhoneNumber', controller.user.loginByCellphone)
   router.get('/api/users/passport/gitee', controller.user.oauth)
   router.get('/api/users/passport/gitee/callback', controller.user.oauthByGitee)
+
+  router.post('/api/works', app.jwt, controller.work.createWork)
 }
