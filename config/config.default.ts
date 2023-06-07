@@ -1,24 +1,9 @@
-const dotenv = require('dotenv')
+import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg'
+import * as dotenv from 'dotenv'
 dotenv.config()
 
-/**
- * @param {Egg.EggAppInfo} appInfo app info
- */
-module.exports = appInfo => {
-  /**
-   * built-in config
-   * @type {Egg.EggAppConfig}
-   **/
-  const config = (exports = {
-    mongoose: {
-      client: {
-        url: 'mongodb://127.0.0.1:27017/lego',
-        options: {
-          // useNewUrlParser: true,
-        }
-      }
-    }
-  })
+export default (appInfo: EggAppInfo) => {
+  const config = {} as PowerPartial<EggAppConfig>
 
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1683856611106_6999'
@@ -34,6 +19,13 @@ module.exports = appInfo => {
 
   config.jwt = {
     secret: '1234567890'
+  }
+
+  config.mongoose = {
+    client: {
+      url: 'mongodb://127.0.0.1:27017/lego',
+      options: {}
+    }
   }
 
   config.redis = {
@@ -59,9 +51,10 @@ module.exports = appInfo => {
     giteeUserAPI: 'https://gitee.com/api/v5/user'
   }
 
-  // add your user config here
-  const userConfig = {
-    // myAppName: 'egg',
+  // add your special config in here
+  const bizConfig = {
+    sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
+    baseUrl: 'default.url',
     aliCloudConfig: {
       accessKeyId: process.env.ALC_ACCESS_KEY,
       accessKeySecret: process.env.ALC_SECRET_KEY,
@@ -72,6 +65,6 @@ module.exports = appInfo => {
 
   return {
     ...config,
-    ...userConfig
+    ...bizConfig
   }
 }

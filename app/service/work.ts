@@ -1,7 +1,7 @@
-const { Service } = require('egg')
-const { nanoid } = require('nanoid')
+import { Service } from 'egg'
+import { nanoid } from 'nanoid'
 
-class WorkService extends Service {
+export default class WorkService extends Service {
   async createEmptyWork(payload) {
     const { ctx } = this
     // 拿到对应的 user id
@@ -17,5 +17,3 @@ class WorkService extends Service {
     return ctx.model.Work.create(newEmptyWork)
   }
 }
-
-module.exports = WorkService

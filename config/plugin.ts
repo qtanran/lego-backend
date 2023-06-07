@@ -1,7 +1,6 @@
-'use strict'
+import { EggPlugin } from 'egg'
 
-/** @type Egg.EggPlugin */
-module.exports = {
+const plugin: EggPlugin = {
   mongoose: {
     enable: true,
     package: 'egg-mongoose'
@@ -27,3 +26,5 @@ module.exports = {
     package: 'egg-cors'
   }
 }
+
+export default plugin

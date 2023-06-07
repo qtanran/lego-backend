@@ -1,7 +1,7 @@
-const { Service } = require('egg')
-const $Dysmsapi = require('@alicloud/dysmsapi20170525')
+import { Service } from 'egg'
+import * as $Dysmsapi from '@alicloud/dysmsapi20170525'
 
-class UserService extends Service {
+export default class UserService extends Service {
   async createByEmail(payload) {
     const { ctx } = this
     const { username, password } = payload
@@ -26,7 +26,7 @@ class UserService extends Service {
    * @param veriCode 验证码
    * @returns {Promise<SendSmsResponse>}
    */
-  async sendSMS(phoneNumber, veriCode) {
+  async sendSMS(phoneNumber: string, veriCode: string) {
     const { app } = this
     // 配置参数
     const sendSMSRequest = new $Dysmsapi.SendSmsRequest({
@@ -131,5 +131,3 @@ class UserService extends Service {
     return app.jwt.sign({ username: newUser.username, _id: newUser._id }, app.config.jwt.secret)
   }
 }
-
-module.exports = UserService

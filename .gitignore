@@ -13,5 +13,6 @@ run/
 *.un~
 typings/
 .nyc_output/
+*.js
 
 .env

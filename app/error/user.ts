@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   userValidateFail: {
     errno: 101001,
     message: '输入信息验证失败'

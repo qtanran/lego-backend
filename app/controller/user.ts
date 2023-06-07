@@ -1,4 +1,6 @@
-const { Controller } = require('egg')
+import { Controller } from 'egg'
+
+import inputValidate from '../decorator/inputValidate'
 
 const userCreateRules = {
   username: 'email',
@@ -14,14 +16,10 @@ const userPhoneCreateRules = {
   veriCode: { type: 'string', format: /^\d{4}$/, message: '验证码格式错误' }
 }
 
-class UserController extends Controller {
+export default class UserController extends Controller {
+  @inputValidate(userCreateRules, 'loginValidateFail')
   async createByEmail() {
     const { ctx, service, app } = this
-    const errors = app.validator.validate(userCreateRules, ctx.request.body)
-    ctx.logger.warn(errors)
-    if (errors) {
-      return ctx.helper.error({ ctx, errorType: 'userValidateFail', error: errors })
-    }
     const { username } = ctx.request.body
     const user = await service.user.findByUsername(username)
     if (user) {
@@ -32,29 +30,13 @@ class UserController extends Controller {
   }
 
   /**
-   * 校验用户的输入
-   * @param rules 校验规则
-   * @returns {ValidateError[]} 校验结果
-   */
-  validateUserInput(rules) {
-    const { ctx, app } = this
-    const errors = app.validator.validate(rules, ctx.request.body)
-    ctx.logger.warn(errors)
-    return errors
-  }
-
-  /**
    * 发送手机验证码
    * @returns {Promise<*>}
    */
+  @inputValidate(sendCodeRules, 'userValidateFail')
   async sendVeriCode() {
     const { ctx, app } = this
     const { phoneNumber } = ctx.request.body
-    // 检查用户输入
-    const error = this.validateUserInput(sendCodeRules)
-    if (error) {
-      return ctx.helper.error({ ctx, errorType: 'userValidateFail', error })
-    }
     // 获取 redis 的数据
     const preVeriCode = await app.redis.get(`phoneVeriCode-${phoneNumber}`)
     // 判断是否存在
@@ -75,13 +57,9 @@ class UserController extends Controller {
    * 通过邮箱登录
    * @returns {Promise<*>}
    */
+  @inputValidate(userCreateRules, 'loginValidateFail')
   async loginByEmail() {
     const { ctx, service, app } = this
-    // 检查用户的输入
-    const error = this.validateUserInput(userCreateRules)
-    if (error) {
-      return ctx.helper.error({ ctx, errorType: 'userValidateFail', error })
-    }
     // 根据 username 获取用户信息
     const { username, password } = ctx.request.body
     const user = await service.user.findByUsername(username)
@@ -104,14 +82,10 @@ class UserController extends Controller {
    * 通过电话号码登录
    * @returns {Promise<*>}
    */
+  @inputValidate(userPhoneCreateRules, 'userValidateFail')
   async loginByCellphone() {
     const { ctx, app } = this
     const { phoneNumber, veriCode } = ctx.request.body
-    // 检查用户输入
-    const error = this.validateUserInput(userPhoneCreateRules)
-    if (error) {
-      return ctx.helper.error({ ctx, errorType: 'userValidateFail', error })
-    }
     // 验证码是否正确
     const preVeriCode = await app.redis.get(`phoneVeriCode-${phoneNumber}`)
     if (veriCode !== preVeriCode) {
@@ -143,5 +117,3 @@ class UserController extends Controller {
     ctx.helper.success({ ctx, res: userData.toJSON() })
   }
 }
-
-module.exports = UserController
