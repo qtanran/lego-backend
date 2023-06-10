@@ -15,6 +15,9 @@ export interface IndexCondition {
 }
 
 export default class WorkController extends Controller {
+  /**
+   * 创建作品
+   */
   @inputValidate(workCreateRules, 'workValidateFail')
   async createWork() {
     const { ctx, service } = this
@@ -22,6 +25,9 @@ export default class WorkController extends Controller {
     ctx.helper.success({ ctx, res: workData })
   }
 
+  /**
+   * 获取我的作品
+   */
   async myList() {
     const { ctx } = this
     const userId = ctx.state.user._id
@@ -42,6 +48,9 @@ export default class WorkController extends Controller {
     ctx.helper.success({ ctx, res })
   }
 
+  /**
+   * 获取作品列表
+   */
   async templateList() {
     const { ctx } = this
     const { pageIndex, pageSize } = ctx.query
@@ -53,6 +62,52 @@ export default class WorkController extends Controller {
       ...(pageSize && { pageSize: parseInt(pageSize) })
     }
     const res = await ctx.service.work.getList(listCondition)
+    ctx.helper.success({ ctx, res })
+  }
+
+  /**
+   * 检查权限
+   * @param id
+   */
+  async checkPermission(id: number) {
+    const { ctx } = this
+    // 获取当前用户的 ID
+    const userId = ctx.state.user._id
+    // 查询作品信息
+    const certianWork = await this.ctx.model.Work.findOne({ id })
+    if (!certianWork) {
+      return false
+    }
+    // 检查是否相等
+    return certianWork.user.toString() === userId
+  }
+
+  /**
+   * 更新作品
+   */
+  async update() {
+    const { ctx } = this
+    const { id } = ctx.params
+    const permission = await this.checkPermission(id)
+    if (!permission) {
+      return ctx.helper.error({ ctx, errorType: 'workNoPermissionFail' })
+    }
+    const payload = ctx.request.body
+    const res = await this.ctx.model.Work.findOneAndUpdate({ id }, payload, { new: true }).lean()
+    ctx.helper.success({ ctx, res })
+  }
+
+  /**
+   * 删除作品
+   */
+  async delete() {
+    const { ctx } = this
+    const { id } = ctx.params
+    const permission = await this.checkPermission(id)
+    if (!permission) {
+      return ctx.helper.error({ ctx, errorType: 'workNoPermissionFail' })
+    }
+    const res = await this.ctx.model.Work.findOneAndDelete({ id }).select('_id id title').lean()
     ctx.helper.success({ ctx, res })
   }
 }
