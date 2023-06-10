@@ -12,6 +12,10 @@ const defaultIndexCondition: Required<IndexCondition> = {
 }
 
 export default class WorkService extends Service {
+  /**
+   * 创建作品
+   * @param payload
+   */
   async createEmptyWork(payload) {
     const { ctx } = this
     // 拿到对应的 user id
@@ -26,6 +30,11 @@ export default class WorkService extends Service {
     }
     return ctx.model.Work.create(newEmptyWork)
   }
+
+  /**
+   * 获取作品列表
+   * @param condition
+   */
   async getList(condition) {
     const fcondition = { ...defaultIndexCondition, ...condition }
     const { pageIndex, pageSize, select, populate, customSort, find } = fcondition
@@ -39,5 +48,18 @@ export default class WorkService extends Service {
       .lean()
     const count = await this.ctx.model.Work.find(find).count()
     return { count, list: res, pageSize, pageIndex }
+  }
+
+  async publish(id: number, isTemplate = false) {
+    const { ctx } = this
+    const { H5BaseURL } = ctx.app.config
+    const payload = {
+      status: 2,
+      latestPublishAt: new Date(),
+      ...(isTemplate && { isTemplate: true })
+    }
+    const res = await ctx.model.Work.findOneAndUpdate({ id }, payload, { new: true })
+    const { uuid } = res
+    return `${H5BaseURL}/p/${id}-${uuid}`
   }
 }

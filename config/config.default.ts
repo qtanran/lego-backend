@@ -60,7 +60,8 @@ export default (appInfo: EggAppInfo) => {
       accessKeySecret: process.env.ALC_SECRET_KEY,
       endpoint: 'dysmsapi.aliyuncs.com'
     },
-    giteeOauthConfig
+    giteeOauthConfig,
+    H5BaseURL: 'http://localhost:7001/api/pages'
   }
 
   return {
