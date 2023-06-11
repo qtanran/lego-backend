@@ -1,6 +1,6 @@
 import { GlobalErrorTypes } from '../error'
 export default function (modelName: string, errorType: GlobalErrorTypes, userKey = 'user') {
-  return function (prototype, key: string, descriptor) {
+  return function (_prototype, _key: string, descriptor) {
     const originalMethod = descriptor.value
     descriptor.value = async function (...args: any[]) {
       const { ctx } = this

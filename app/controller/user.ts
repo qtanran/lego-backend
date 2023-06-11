@@ -19,7 +19,7 @@ const userPhoneCreateRules = {
 export default class UserController extends Controller {
   @inputValidate(userCreateRules, 'loginValidateFail')
   async createByEmail() {
-    const { ctx, service, app } = this
+    const { ctx, service } = this
     const { username } = ctx.request.body
     const user = await service.user.findByUsername(username)
     if (user) {

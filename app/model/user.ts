@@ -1,5 +1,5 @@
 import { Application } from 'egg'
-import * as AutoIncrementFactory from 'mongoose-sequence'
+const AutoIncrementFactory = require('mongoose-sequence');
 
 export interface UserProps {
   username: string

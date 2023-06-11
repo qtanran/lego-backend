@@ -4,36 +4,7 @@
   "description": "慕课乐高项目的后台",
   "private": true,
   "egg": {
-    "declarations": true
-  },
-  "dependencies": {
-    "@alicloud/dysmsapi20170525": "^2.0.23",
-    "@alicloud/openapi-client": "^0.4.6",
-    "egg": "^3",
-    "egg-bcrypt": "^1.1.0",
-    "egg-cors": "^2.2.3",
-    "egg-jwt": "^3.1.7",
-    "egg-mongoose": "^3.3.1",
-    "egg-redis": "^2.4.0",
-    "egg-scripts": "^2",
-    "egg-validate": "^2.0.2",
-    "mongoose-sequence": "^5.3.1",
-    "nanoid": "^3.3.6"
-  },
-  "devDependencies": {
-    "@eggjs/tsconfig": "1",
-    "@types/mocha": "10",
-    "@types/node": "16",
-    "dotenv": "^16.0.3",
-    "egg-bin": "^5",
-    "egg-ci": "^2",
-    "egg-mock": "^5",
-    "prettier": "^2.8.8",
-    "tslib": "^2.5.3",
-    "typescript": "4"
-  },
-  "engines": {
-    "node": ">=16.0.0"
+    "typescript": true
   },
   "scripts": {
     "start": "egg-scripts start --daemon --title=egg-server-lego-backend",
@@ -47,14 +18,45 @@
     "tsc": "tsc",
     "clean": "tsc -b --clean"
   },
-  "ci": {
-    "version": "16, 18",
-    "type": "github"
+  "dependencies": {
+    "@alicloud/dysmsapi20170525": "^2.0.23",
+    "@alicloud/openapi-client": "^0.4.6",
+    "@eggjs/tegg": "^3.5.2",
+    "@eggjs/tegg-aop-plugin": "^3.5.2",
+    "@eggjs/tegg-config": "^3.2.3",
+    "@eggjs/tegg-controller-plugin": "^3.5.2",
+    "@eggjs/tegg-eventbus-plugin": "^3.5.2",
+    "@eggjs/tegg-plugin": "^3.5.2",
+    "@eggjs/tegg-schedule-plugin": "^3.5.2",
+    "egg": "^3.15.0",
+    "egg-bcrypt": "^1.1.0",
+    "egg-cors": "^2.2.3",
+    "egg-jwt": "^3.1.7",
+    "egg-mongoose": "^3.3.1",
+    "egg-redis": "^2.4.0",
+    "egg-scripts": "^2.17.0",
+    "egg-tracer": "^2.0.0",
+    "egg-validate": "^2.0.2",
+    "mongoose-sequence": "^5.3.1",
+    "nanoid": "^3.3.6"
+  },
+  "devDependencies": {
+    "@eggjs/tsconfig": "1",
+    "@types/mocha": "10",
+    "@types/mongoose-sequence": "^3.0.7",
+    "@types/node": "18",
+    "dotenv": "^16.0.3",
+    "egg-bin": "6",
+    "prettier": "^2.8.8",
+    "typescript": "4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",
     "url": ""
   },
-  "author": "qtanran",
+  "author": "",
   "license": "MIT"
 }

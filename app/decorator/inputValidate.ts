@@ -1,5 +1,5 @@
 export default (rules: any, errorType) => {
-  return function (prototype, key, descriptor) {
+  return function (_prototype, _key, descriptor) {
     const originalMethod = descriptor.value
     descriptor.value = async function (...args) {
       const { ctx, app } = this

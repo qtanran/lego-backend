@@ -1,6 +1,6 @@
 import { Application } from 'egg'
 import { ObjectId } from 'mongoose'
-import * as AutoIncrementFactory from 'mongoose-sequence'
+const AutoIncrementFactory = require('mongoose-sequence');
 
 export interface WorkProps {
   id?: number

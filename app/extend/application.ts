@@ -6,7 +6,7 @@ const ALCLIENT = Symbol('Application#ALClient')
 
 export default {
   get ALClient(): Dysmsapi {
-    const { accessKeyId, accessKeySecret, endpoint } = (this as Application).config.aliCloudConfig
+    const { accessKeyId, accessKeySecret, endpoint } = (this as unknown as Application).config.aliCloudConfig
     if (!this[ALCLIENT]) {
       const config = new $OpenApi.Config({
         accessKeyId,
