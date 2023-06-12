@@ -1,6 +1,7 @@
 import { Controller } from 'egg'
 import inputValidate from '../decorator/inputValidate'
 import checkPermission from '../decorator/checkPermission'
+import { WorkProps } from '../model/work'
 
 const workCreateRules = {
   title: 'string'
@@ -24,6 +25,38 @@ export default class WorkController extends Controller {
     const { ctx, service } = this
     const workData = await service.work.createEmptyWork(ctx.request.body)
     ctx.helper.success({ ctx, res: workData })
+  }
+
+  /**
+   * 复制作品
+   */
+  async copyWork() {
+    const { ctx } = this
+    const { id } = ctx.params
+    try {
+      const res = await ctx.service.work.copyWork(parseInt(id))
+      ctx.helper.success({ ctx, res })
+    } catch (e) {
+      return ctx.helper.error({ ctx, errorType: 'workNoPublicFail' })
+    }
+  }
+
+  @checkPermission('Work', 'workNoPermissionFail')
+  async myWork() {
+    const { ctx } = this
+    const { id } = ctx.params
+    const res = await this.ctx.model.Work.findOne({ id }).lean()
+    ctx.helper.success({ ctx, res })
+  }
+
+  async template() {
+    const { ctx } = this
+    const { id } = ctx.params
+    const res = await this.ctx.model.Work.findOne<WorkProps>({ id }).lean()
+    if (!res?.isPublic || !res?.isTemplate) {
+      return ctx.helper.error({ ctx, errorType: 'workNoPublicFail' })
+    }
+    ctx.helper.success({ ctx, res })
   }
 
   /**

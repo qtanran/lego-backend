@@ -43,7 +43,6 @@
   "devDependencies": {
     "@eggjs/tsconfig": "1",
     "@types/mocha": "10",
-    "@types/mongoose-sequence": "^3.0.7",
     "@types/node": "18",
     "dotenv": "^16.0.3",
     "egg-bin": "6",
