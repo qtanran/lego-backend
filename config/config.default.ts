@@ -42,6 +42,15 @@ export default (appInfo: EggAppInfo) => {
     allowMethods: 'GET,HEAD,PUT,OPTIONS,POST,DELETE,PATCH'
   }
 
+  config.oss = {
+    client: {
+      accessKeyId: process.env.ALC_ACCESS_KEY || '',
+      accessKeySecret: process.env.ALC_SECRET_KEY || '',
+      bucket: 'lego-backend',
+      endpoint: 'oss-cn-beijing.aliyuncs.com'
+    }
+  }
+
   // gitee oauth config
   const giteeOauthConfig = {
     cid: process.env.GITEE_CID,

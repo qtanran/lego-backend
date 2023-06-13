@@ -1,33 +1,33 @@
-import { EggPlugin } from 'egg';
+import { EggPlugin } from 'egg'
 
 const plugin: EggPlugin = {
   tegg: {
     enable: true,
-    package: '@eggjs/tegg-plugin',
+    package: '@eggjs/tegg-plugin'
   },
   teggConfig: {
     enable: true,
-    package: '@eggjs/tegg-config',
+    package: '@eggjs/tegg-config'
   },
   teggController: {
     enable: true,
-    package: '@eggjs/tegg-controller-plugin',
+    package: '@eggjs/tegg-controller-plugin'
   },
   teggSchedule: {
     enable: true,
-    package: '@eggjs/tegg-schedule-plugin',
+    package: '@eggjs/tegg-schedule-plugin'
   },
   eventbusModule: {
     enable: true,
-    package: '@eggjs/tegg-eventbus-plugin',
+    package: '@eggjs/tegg-eventbus-plugin'
   },
   aopModule: {
     enable: true,
-    package: '@eggjs/tegg-aop-plugin',
+    package: '@eggjs/tegg-aop-plugin'
   },
   tracer: {
     enable: true,
-    package: 'egg-tracer',
+    package: 'egg-tracer'
   },
   mongoose: {
     enable: true,
@@ -52,7 +52,11 @@ const plugin: EggPlugin = {
   cors: {
     enable: true,
     package: 'egg-cors'
+  },
+  oss: {
+    enable: true,
+    package: 'egg-oss'
   }
-};
+}
 
-export default plugin;
+export default plugin
