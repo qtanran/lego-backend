@@ -23,5 +23,5 @@ export default (app: Application) => {
   router.post('/api/works/publish/:id', jwtMiddleware, controller.work.publishWork)
   router.post('/api/works/publish-template/:id', jwtMiddleware, controller.work.publishTemplate)
 
-  router.post('/api/utils/upload-img', controller.utils.fileUploadByStream)
+  router.post('/api/utils/upload-img', controller.utils.uploadToOSS)
 }

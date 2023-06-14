@@ -46,7 +46,7 @@ export default (appInfo: EggAppInfo) => {
     client: {
       accessKeyId: process.env.ALC_ACCESS_KEY || '',
       accessKeySecret: process.env.ALC_SECRET_KEY || '',
-      bucket: 'lego-backend',
+      bucket: 'lego-backend-qu',
       endpoint: 'oss-cn-beijing.aliyuncs.com'
     }
   }

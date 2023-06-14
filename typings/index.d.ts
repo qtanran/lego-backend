@@ -4,8 +4,4 @@ import 'egg-redis'
 import 'egg-mongoose'
 import 'egg-oss'
 
-declare module 'egg' {
-  interface Application {
-    ALClient: any
-  }
-}
+declare module 'egg' {}
