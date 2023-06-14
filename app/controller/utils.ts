@@ -6,7 +6,8 @@ import { join, extname } from 'path'
 export default class UtilsController extends Controller {
   async uploadMultipleFiles() {
     const { ctx, app } = this
-    const parts = ctx.multipart()
+    const { fileSize } = app.config.multipart
+    const parts = ctx.multipart({ limits: { fileSize: fileSize as number } })
     const urls: string[] = []
     let part
     while ((part = await parts())) {
@@ -15,9 +16,16 @@ export default class UtilsController extends Controller {
       } else {
         try {
           const savedOSSPath = join('test', nanoid(6) + extname(part.filename))
-          const result = await ctx.oss.put(savedOSSPath, part)
-          const { url } = result
+          const { url } = await ctx.oss.put(savedOSSPath, part)
           urls.push(url)
+          if (part.truncated) {
+            await ctx.oss.delete(savedOSSPath)
+            return ctx.helper.error({
+              ctx,
+              errorType: 'imageUploadFileSizeError',
+              error: `Reach fileSize limit ${fileSize} bytes`
+            })
+          }
         } catch (e) {
           await sendToWormhole(part)
           ctx.helper.error({ ctx, errorType: 'imageUploadFail' })

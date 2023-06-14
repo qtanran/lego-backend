@@ -37,6 +37,11 @@ export default (appInfo: EggAppInfo) => {
     }
   }
 
+  config.multipart = {
+    whitelist: ['.png', '.jpg', '.gif', '.webp'],
+    fileSize: '1mb'
+  }
+
   config.cors = {
     origin: 'http://localhost:8080',
     allowMethods: 'GET,HEAD,PUT,OPTIONS,POST,DELETE,PATCH'
