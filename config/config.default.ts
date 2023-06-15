@@ -17,6 +17,10 @@ export default (appInfo: EggAppInfo) => {
     }
   }
 
+  config.view = {
+    defaultViewEngine: 'nunjucks'
+  }
+
   config.jwt = {
     enable: true,
     secret: process.env.JWT_SECRET || '',

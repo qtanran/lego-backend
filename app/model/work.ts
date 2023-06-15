@@ -1,6 +1,6 @@
 import { Application } from 'egg'
 import { ObjectId } from 'mongoose'
-const AutoIncrementFactory = require('mongoose-sequence');
+const AutoIncrementFactory = require('mongoose-sequence')
 
 export interface WorkProps {
   id?: number
@@ -19,7 +19,7 @@ export interface WorkProps {
   latestPublishAt?: Date
 }
 
-module.exports = (app: Application) => {
+export default (app: Application) => {
   const mongoose = app.mongoose
   const Schema = mongoose.Schema
   const AutoIncrement = AutoIncrementFactory(mongoose)

@@ -4,6 +4,35 @@ import { nanoid } from 'nanoid'
 import { join, extname } from 'path'
 
 export default class UtilsController extends Controller {
+  splitIdAndUUID(str = '') {
+    const result = { id: '', uuid: '' }
+    if (!str || !str.includes('-')) {
+      return result
+    }
+    const firstDashIndex = str.indexOf('-')
+    result.id = str.slice(0, firstDashIndex)
+    result.uuid = str.slice(firstDashIndex + 1)
+    return result
+  }
+
+  /**
+   * 渲染 H5页面
+   */
+  async renderH5Page() {
+    const { ctx } = this
+    const { idAndUuid } = ctx.params
+    const query = this.splitIdAndUUID(idAndUuid)
+    try {
+      const pageData = await this.service.utils.renderToPageData(query)
+      await ctx.render('page.nj', pageData)
+    } catch (e) {
+      ctx.helper.error({ ctx, errorType: 'h5WorkNotExistError' })
+    }
+  }
+
+  /**
+   * 多文件上传
+   */
   async uploadMultipleFiles() {
     const { ctx, app } = this
     const { fileSize } = app.config.multipart
@@ -33,20 +62,5 @@ export default class UtilsController extends Controller {
       }
     }
     ctx.helper.success({ ctx, res: { urls } })
-  }
-
-  async uploadToOSS() {
-    const { ctx, app } = this
-    const stream = await ctx.getFileStream()
-    const savedOSSPath = join('test', nanoid(6) + extname(stream.filename))
-    try {
-      const result = await ctx.oss.put(savedOSSPath, stream)
-      app.logger.info(result)
-      const { name, url } = result
-      ctx.helper.success({ ctx, res: { name, url } })
-    } catch (e) {
-      await sendToWormhole(stream)
-      ctx.helper.error({ ctx, errorType: 'imageUploadFail' })
-    }
   }
 }

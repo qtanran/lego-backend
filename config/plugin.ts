@@ -56,6 +56,10 @@ const plugin: EggPlugin = {
   oss: {
     enable: true,
     package: 'egg-oss'
+  },
+  nunjucks: {
+    enable: true,
+    package: 'egg-view-nunjucks'
   }
 }
 

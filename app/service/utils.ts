@@ -1,0 +1,31 @@
+import { Service } from 'egg'
+import { createSSRApp } from 'vue'
+// @ts-ignore
+import LegoComponents from 'lego-components'
+import { renderToString } from '@vue/server-renderer'
+import { WorkProps } from '../model/work'
+
+export default class UserService extends Service {
+  async renderToPageData(query: { id: string; uuid: string }) {
+    const work = await this.ctx.model.Work.findOne<WorkProps>(query).lean()
+    if (!work) {
+      throw new Error('work not exist')
+    }
+    const { title, desc, content } = work
+    const vueApp = createSSRApp({
+      data: () => {
+        return {
+          components: (content && content.components) || []
+        }
+      },
+      template: '<final-page :components="components" />'
+    })
+    vueApp.use(LegoComponents)
+    const html = await renderToString(vueApp)
+    return {
+      html,
+      title,
+      desc
+    }
+  }
+}
