@@ -9,7 +9,7 @@ export default (appInfo: EggAppInfo) => {
   config.keys = appInfo.name + '_1683856611106_6999'
 
   // add your middleware config here
-  config.middleware = ['customError']
+  // config.middleware = []
 
   config.security = {
     csrf: {
@@ -18,7 +18,9 @@ export default (appInfo: EggAppInfo) => {
   }
 
   config.jwt = {
-    secret: '1234567890'
+    enable: true,
+    secret: process.env.JWT_SECRET || '',
+    match: ['/api/users/getUserInfo', '/api/works', '/api/utils/upload-img']
   }
 
   config.mongoose = {

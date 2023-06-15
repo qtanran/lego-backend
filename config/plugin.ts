@@ -56,10 +56,6 @@ const plugin: EggPlugin = {
   oss: {
     enable: true,
     package: 'egg-oss'
-  },
-  multipart: {
-    enable: true,
-    package: 'egg-multipart'
   }
 }
 
