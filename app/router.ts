@@ -30,4 +30,6 @@ export default (app: Application) => {
   router.get('/pages/:idAndUuid', controller.utils.renderH5Page)
   router.post('/channel', controller.work.createChannel)
   router.get('/getWorkChannels/:id', controller.work.getWorkChannel)
+  router.patch('/channel/updateName/:id', controller.work.updateChannelName)
+  router.delete('/channel/:id', controller.work.deleteChannel)
 }
