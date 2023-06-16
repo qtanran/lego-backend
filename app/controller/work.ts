@@ -1,10 +1,15 @@
 import { Controller } from 'egg'
+import { nanoid } from 'nanoid'
 import inputValidate from '../decorator/inputValidate'
 import checkPermission from '../decorator/checkPermission'
 import { WorkProps } from '../model/work'
 
 const workCreateRules = {
   title: 'string'
+}
+const channelCreateRules = {
+  name: 'string',
+  workId: 'number'
 }
 
 export interface IndexCondition {
@@ -17,6 +22,39 @@ export interface IndexCondition {
 }
 
 export default class WorkController extends Controller {
+  @inputValidate(channelCreateRules, 'channelValidateFail')
+  async createChannel() {
+    const { ctx } = this
+    const { name, workId } = ctx.request.body
+    const newChannel = {
+      name,
+      id: nanoid(6)
+    }
+    const res = await ctx.model.Work.findOneAndUpdate(
+      { id: workId },
+      { $push: { channels: newChannel } }
+    )
+    if (res) {
+      ctx.helper.success({ ctx, res: newChannel })
+    } else {
+      ctx.helper.error({ ctx, errorType: 'channelOperateFail' })
+    }
+  }
+  async getWorkChannel() {
+    const { ctx } = this
+    const { id } = ctx.params
+    const certianWork = await ctx.model.Work.findOne({ id })
+    if (certianWork) {
+      const { channels } = certianWork
+      ctx.helper.success({
+        ctx,
+        res: { count: (channels && channels.length) || 0, list: channels || [] }
+      })
+    } else {
+      ctx.helper.error({ ctx, errorType: 'channelOperateFail' })
+    }
+  }
+
   /**
    * 创建作品
    */

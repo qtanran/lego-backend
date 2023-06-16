@@ -2,6 +2,11 @@ import { Application } from 'egg'
 import { ObjectId } from 'mongoose'
 const AutoIncrementFactory = require('mongoose-sequence')
 
+interface ChannelProps {
+  name: string
+  id: string
+}
+
 export interface WorkProps {
   id?: number
   uuid: string
@@ -17,6 +22,7 @@ export interface WorkProps {
   status?: 0 | 1 | 2
   user: ObjectId
   latestPublishAt?: Date
+  channels?: ChannelProps[]
 }
 
 export default (app: Application) => {
@@ -38,7 +44,8 @@ export default (app: Application) => {
       copiedCount: { type: Number, default: 0 },
       status: { type: Number, default: 1 },
       user: { type: Schema.Types.ObjectId, ref: 'User' },
-      latestPublishAt: { type: Date }
+      latestPublishAt: { type: Date },
+      channels: { type: Array }
     },
     { timestamps: true }
   )
