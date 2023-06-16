@@ -1,5 +1,5 @@
 import { Application } from 'egg'
-const AutoIncrementFactory = require('mongoose-sequence');
+const AutoIncrementFactory = require('mongoose-sequence')
 
 export interface UserProps {
   username: string
@@ -13,6 +13,7 @@ export interface UserProps {
   type: 'email' | 'cellphone' | 'oauth'
   provider?: 'gitee'
   oauthID?: string
+  role?: 'admin' | 'normal'
 }
 
 module.exports = (app: Application) => {
@@ -30,7 +31,8 @@ module.exports = (app: Application) => {
       phoneNumber: { type: String },
       type: { type: String, default: 'email' },
       provider: { type: String },
-      oauthID: { type: String }
+      oauthID: { type: String },
+      role: { type: String, default: 'normal' }
     },
     {
       timestamps: true,
