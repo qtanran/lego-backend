@@ -9,14 +9,13 @@ logs/
 .vscode
 *.swp
 *.lock
-*.js
 .eslintcache
 
 app/**/*.js
 test/**/*.js
-config/**/*.js
 app/**/*.map
 test/**/*.map
 config/**/*.map
 
 .env
+app/public
