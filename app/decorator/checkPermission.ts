@@ -10,17 +10,22 @@ const caslMethodMapping: Record<string, string> = {
   PATCH: 'update',
   DELETE: 'delete'
 }
+interface IOptions {
+  action?: string
+  key?: string
+  value?: { type: 'params' | 'body'; valueKey: string }
+}
 
-const options = { fieldsFrom: rule => rule.fields || [] }
+const fieldsOptions = { fieldsFrom: rule => rule.fields || [] }
 
-export default function (modelName: string, errorType: GlobalErrorTypes, _userKey = 'user') {
+export default function (modelName: string, errorType: GlobalErrorTypes, options?: IOptions) {
   return function (_prototype, _key: string, descriptor) {
     const originalMethod = descriptor.value
     descriptor.value = async function (...args: any[]) {
       const { ctx } = this
       const { id } = ctx.params
       const { method } = ctx.request
-      const action = caslMethodMapping[method]
+      const action = options && options.action ? options.action : caslMethodMapping[method]
       if (!ctx.state && !ctx.state.user) {
         return ctx.helper.error({ ctx, errorType })
       }
@@ -39,7 +44,7 @@ export default function (modelName: string, errorType: GlobalErrorTypes, _userKe
       }
       // 判断 rule 中是否有对应的受限字段
       if (rule?.fields) {
-        const fields = permittedFieldsOf(ability, action, modelName, options)
+        const fields = permittedFieldsOf(ability, action, modelName, fieldsOptions)
         if (fields.length > 0) {
           const payloadKeys = Object.keys(ctx.request.body)
           const diffKeys = difference(payloadKeys, fields)
